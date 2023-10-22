@@ -1,4 +1,7 @@
 const selectionButtons = document.querySelectorAll('[data-selection]')
+const finalColumn  = document.querySelector('[data-final-column]')
+const compterScoreSpan = document.querySelector('[data-computer-score]')
+const yourScoreSpan = document.querySelector('[data-your-score]')
 const SELECTIONS = [
  {
     name: 'rock',
@@ -30,8 +33,23 @@ function makeSelection(selection){
     const ComputerWinner = isWinner(computerSelection,selection)
     // console.log(selection)
     console.log(computerSelection)
+    addSelectionResult(computerSelection,ComputerWinner)
+    addSelectionResult(selection,yourWinner)
+
+    if(yourWinner) incrementScore(yourScoreSpan)
+    if(ComputerWinner) incrementScore(compterScoreSpan)
 }
-function addSelectionResult(selection, win)
+function incrementScore(scoreSpan){
+   scoreSpan.innerText = parseInt(scoreSpan.innerText)+1
+
+}
+function addSelectionResult(selection, winner){
+    const div = document.createElement('div')
+    div.innerText = selection.emoji
+    div.classList.add('result-selection')
+    if(winner) div.classList.add('winner')
+    finalColumn.after(div)
+}
 function isWinner(selection,opponentSelection){
     return selection.beats === opponentSelection.name
 }
